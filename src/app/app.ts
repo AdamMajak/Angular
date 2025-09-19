@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { HeaderComponent } from './header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  standalone: true,
+  imports: [HeaderComponent],   
   template: `
-    <h1>Default</h1>
+    <app-header></app-header>
   `,
   styleUrls: ['./app.css'],
 })
