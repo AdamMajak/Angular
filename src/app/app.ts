@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from './header/header';
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Quests } from './quests/quests';
-
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, Quests],
   standalone: true,
-  imports: [HeaderComponent, Quests],   
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
 export class App {
-  title = 'default';
+  protected readonly title = signal('quests');
+  header = 'Quest Overflow';
+  header_logo = "meteor-original.svg"
 }

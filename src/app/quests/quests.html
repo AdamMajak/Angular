@@ -1,26 +1,10 @@
-<h2>Available Quests</h2>
+<main>
+  <button (click)="addQuest()">Add Quest</button>
 
-<button (click)="addQuest()">➕ Add Quest</button>
-
-<ul>
-  @for (let i = 0; i < quests.length; i++) {
-    <li>
-      <app-quest-item>
-        <strong>{{ i + 1 }}. {{ quests[i].title }}</strong><br />
-        {{ quests[i].description }}<br />
-        XP: {{ quests[i].xp }}<br />
-
-        @if (quests[i].xp > 100) {
-          <span>🔥 MEGA XP!</span>
-        } @else if (quests[i].xp > 50) {
-          <span>⭐ SUPER XP!</span>
-        }
-
-        <br />
-        <button (click)="deleteQuest(i)">❌ Delete</button>
-      </app-quest-item>
-    </li>
-  } @empty {
-    <li>No quests available.</li>
+  @for (quest of quests; track quest.id) {
+    <app-quest-item 
+      [quest]="quest" 
+      (delete)="deleteQuest($event)">
+    </app-quest-item>
   }
-</ul>
+</main>
