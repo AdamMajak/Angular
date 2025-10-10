@@ -1,8 +1,19 @@
 <main>
-    <header>
-        <img src="assets/logo.svg" alt="">
-        <h1>{{ header }}</h1>
-    </header>
-    <router-outlet></router-outlet>
-    <app-quests></app-quests>
+  <header>
+    <img src="assets/logo.svg" alt="Logo">
+    <h1>{{ header }}</h1>
+  </header>
+
+ 
+  <section class="controls">
+    <button (click)="toggleQuests()">
+      {{ showQuests() ? 'Hide' : 'Show' }} Quests
+    </button>
+  </section>
+
+  
+  <router-outlet></router-outlet>
+
+  
+  <app-quests *ngIf="showQuests()"></app-quests>
 </main>
