@@ -12,5 +12,11 @@ import { Quests } from './quests/quests';
 export class App {
   protected readonly title = signal('quests');
   header = 'Quest Overflow';
-  header_logo = "meteor-original.svg"
+  header_logo = 'meteor-original.svg';
+
+  showQuests = true;
+
+  toggleQuests() {
+    this.showQuests = !this.showQuests;
+  }
 }
