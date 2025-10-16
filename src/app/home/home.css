@@ -1,0 +1,12 @@
+.home {
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+}
+.home a {
+  color: #007acc;
+  text-decoration: none;
+}
+.home a:hover {
+  text-decoration: underline;
+}

@@ -1,21 +1,17 @@
 <main>
-    <header>
-      <div class="header-row">
-        <img src="assets/logo.svg" alt="Logo">
-        <h1 class="header-title">{{ header }}</h1>
-      </div>
-    </header>
-  
-    <section class="content">
-      <button (click)="toggleQuests()">
-        {{ showQuests ? 'Hide Quests' : 'Show Quests' }}
-      </button>
-  
-      <router-outlet></router-outlet>
-  
-      @if (showQuests) {
-        <app-quests></app-quests>
-      }
-    </section>
-  </main>
-  
+  <header>
+    <div class="header-row">
+      <img src="assets/logo.svg" alt="Logo">
+      <h1 class="header-title">{{ header }}</h1>
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Domov</a>
+      <a routerLink="/quests" routerLinkActive="active">Questy</a>
+    </nav>
+  </header>
+
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+</main>
