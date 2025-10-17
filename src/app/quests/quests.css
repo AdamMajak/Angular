@@ -1,0 +1,30 @@
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 20px;
+}
+
+button {
+  margin-bottom: 15px;
+}
+
+.quest-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+
+.quest-link:hover {
+  background-color: #f4f6f8;
+  transform: scale(1.01);
+}
+
+
+.quest-link * {
+  transition: none;
+}

@@ -1,43 +1,43 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { QuestItemComponent, Quest } from './quest-item';
 import { QuestsService } from './quests.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-quests',
   standalone: true,
-  imports: [QuestItemComponent],
+  imports: [QuestItemComponent, RouterModule],
   templateUrl: './quests.html',
+  styleUrls: ['./quests.css']
 })
-export class Quests implements OnInit, OnDestroy {
-  quests: Quest[] = [];
+export class Quests {
+  quests = signal<Quest[]>([]);
+  questCount = computed(() => this.quests().length);
 
   constructor(private questsService: QuestsService) {
-    this.quests = this.questsService.getQuests();
-  }
-
-  ngOnInit() {
-    console.log('Quests component initialized.');
-  }
-
-  ngOnDestroy() {
-    console.log('Quests component destroyed.');
+    this.quests.set(this.questsService.getQuests());
   }
 
   addQuest() {
-    const maxId = Math.max(...this.quests.map(q => q.id), 0);
+    const currentQuests = this.quests();
+    const maxId = Math.max(...currentQuests.map(q => q.id), 0);
     const newQuest: Quest = {
       id: maxId + 1,
       title: 'New Quest',
-      description: '',
+      description: 'A newly created quest with unknown danger.',
       completed: false,
       xp: 50
     };
     this.questsService.addQuest(newQuest);
-    this.quests = this.questsService.getQuests();
+    this.quests.set(this.questsService.getQuests());
   }
 
   deleteQuest(id: number) {
     this.questsService.deleteQuest(id);
-    this.quests = this.questsService.getQuests();
+    this.quests.set(this.questsService.getQuests());
+  }
+
+  trackById(index: number, quest: Quest) {
+    return quest.id;
   }
 }
