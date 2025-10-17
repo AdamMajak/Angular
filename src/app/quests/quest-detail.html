@@ -1,0 +1,16 @@
+<div *ngIf="quest; else notFound">
+  <h2>{{ quest.title }}</h2>
+  <p>{{ quest.description }}</p>
+  <p><strong>XP:</strong> {{ quest.xp }}</p>
+  <p><strong>Completed:</strong> {{ quest.completed ? 'Yes' : 'No' }}</p>
+
+  <img src="https://picsum.photos/400/200?random={{ quest.id }}" alt="Quest image" />
+
+  <br><br>
+  <button (click)="goBack()">← Back to quests</button>
+</div>
+
+<ng-template #notFound>
+  <p>Quest not found.</p>
+  <button (click)="goBack()">Go back</button>
+</ng-template>

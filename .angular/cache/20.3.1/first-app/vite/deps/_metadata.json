@@ -1,49 +1,49 @@
 {
-  "hash": "8b797dcd",
-  "configHash": "2fcbb65e",
-  "lockfileHash": "8c1fdc16",
-  "browserHash": "c8f37acb",
+  "hash": "f155610c",
+  "configHash": "edd22381",
+  "lockfileHash": "5a5edc4b",
+  "browserHash": "915d1904",
   "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "b51f7528",
+      "needsInterop": false
+    },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "0481e5c3",
+      "fileHash": "eab3e9d5",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "946025b2",
+      "fileHash": "872d3921",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "16b04303",
+      "fileHash": "81358bea",
       "needsInterop": false
     },
     "zone.js": {
       "src": "../../../../../../node_modules/zone.js/fesm2015/zone.js",
       "file": "zone__js.js",
-      "fileHash": "1e159534",
+      "fileHash": "d2b02f53",
       "needsInterop": true
-    },
-    "@angular/common": {
-      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
-      "file": "@angular_common.js",
-      "fileHash": "99279383",
-      "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-YW526OU2": {
-      "file": "chunk-YW526OU2.js"
+    "chunk-ZMNZPQEB": {
+      "file": "chunk-ZMNZPQEB.js"
     },
-    "chunk-66U3LVKN": {
-      "file": "chunk-66U3LVKN.js"
+    "chunk-UR45V7K6": {
+      "file": "chunk-UR45V7K6.js"
     },
-    "chunk-C3TORXPJ": {
-      "file": "chunk-C3TORXPJ.js"
+    "chunk-7JTMETAR": {
+      "file": "chunk-7JTMETAR.js"
     },
     "chunk-TJFVSI2U": {
       "file": "chunk-TJFVSI2U.js"
