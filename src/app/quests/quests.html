@@ -1,6 +1,7 @@
 <main>
   <button (click)="addQuest()">Add Quest</button>
   <p>Current quests: {{ questCount() }}</p>
+
   <ng-container *ngFor="let quest of quests(); trackBy: trackById">
     <a [routerLink]="['/quests', quest.id]" class="quest-link">
       <app-quest-item 

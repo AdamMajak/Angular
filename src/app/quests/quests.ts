@@ -1,4 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { QuestItemComponent, Quest } from './quest-item';
 import { QuestsService } from './quests.service';
 import { RouterModule } from '@angular/router';
@@ -6,7 +7,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-quests',
   standalone: true,
-  imports: [QuestItemComponent, RouterModule],
+  imports: [CommonModule, QuestItemComponent, RouterModule],
   templateUrl: './quests.html',
   styleUrls: ['./quests.css']
 })
@@ -19,8 +20,8 @@ export class Quests {
   }
 
   addQuest() {
-    const currentQuests = this.quests();
-    const maxId = Math.max(...currentQuests.map(q => q.id), 0);
+    const quests = this.quests();
+    const maxId = quests.length > 0 ? Math.max(...quests.map((q: Quest) => q.id)) : 0;
     const newQuest: Quest = {
       id: maxId + 1,
       title: 'New Quest',
