@@ -1,0 +1,6 @@
+<h2>Players</h2>
+<button (click)="addPlayer()">Add Player</button>
+
+<li [ngFor]="let player of players(); let i = index; trackBy: trackById">
+  <a [routerLink]="['/players', player.id]">{{ player.nickname }}</a>
+</li>

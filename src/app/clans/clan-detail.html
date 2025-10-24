@@ -1,0 +1,13 @@
+<div *ngIf="clan">
+    <h2>{{ clan.name }}</h2>
+    <p>{{ clan.description }}</p>
+    <p>Capacity: {{ clan.capacity }}</p>
+  
+    <h3>Members</h3>
+    <ul>
+      <li *ngFor="let member of clan.members">
+        <a [routerLink]="['/players', member.id]">{{ member.nickname }}</a>
+      </li>
+    </ul>
+  </div>
+  
