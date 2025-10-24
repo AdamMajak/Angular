@@ -17,7 +17,10 @@ export type Quest = {
 export class QuestItemComponent {
   quest = input.required<Quest>();
   delete = output<number>();
-  onDelete() {
+
+  onDelete(event: MouseEvent) {
+    event.stopPropagation(); 
+    event.preventDefault();  
     this.delete.emit(this.quest().id);
   }
 }
