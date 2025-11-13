@@ -1,0 +1,14 @@
+<h2>Players</h2>
+<button (click)="addPlayer()">Add Player</button>
+
+<ul>
+  @for (player of playersList(); track player.id) {
+    <li (click)="goToPlayer(player.id)">
+      <strong>{{ player.nickname }}</strong> — Level: {{ player.level }}
+      @if (player.clanId) {
+        <span>(Clan ID: {{ player.clanId }})</span>
+      }
+      <button (click)="delete(player.id); $event.stopPropagation()">Delete</button>
+    </li>
+  }
+</ul>

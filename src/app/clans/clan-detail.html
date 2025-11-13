@@ -1,13 +1,24 @@
-<div *ngIf="clan">
-    <h2>{{ clan.name }}</h2>
-    <p>{{ clan.description }}</p>
-    <p>Capacity: {{ clan.capacity }}</p>
-  
-    <h3>Members</h3>
-    <ul>
-      <li *ngFor="let member of clan.members">
-        <a [routerLink]="['/players', member.id]">{{ member.nickname }}</a>
+@if (clan) {
+  <h2>{{ clan.name }}</h2>
+  <p>{{ clan.description }}</p>
+
+  <h3>Members</h3>
+  <ul>
+    @for (m of members(); track m!.id) {
+      <li>
+        <span (click)="goToPlayer(m!.id)">
+          {{ m!.nickname }} (Level {{ m!.level }})
+        </span>
+
+        <button (click)="removePlayer(m!.id)">Remove</button>
       </li>
-    </ul>
-  </div>
-  
+    }
+  </ul>
+
+  <h3>Add Player</h3>
+  @for (p of players.players(); track p.id) {
+    @if (!clan.members.includes(p.id)) {
+      <button (click)="addPlayer(p.id)">{{ p.nickname }}</button>
+    }
+  }
+}

@@ -1,3 +1,4 @@
+// quests.service.ts
 import { Injectable, signal } from '@angular/core';
 import { Quest } from './quest-item';
 
@@ -15,15 +16,15 @@ export class QuestsService {
     return this._quests();
   }
 
+  getQuest(id: number): Quest | undefined {  
+    return this._quests().find(q => q.id === id);
+  }
+
   addQuest(newQuest: Quest) {
     this._quests.update(qs => [...qs, newQuest]);
   }
 
   deleteQuest(id: number) {
     this._quests.update(qs => qs.filter(q => q.id !== id));
-  }
-
-  getQuestById(id: number): Quest | undefined {
-    return this._quests().find(q => q.id === id);
   }
 }

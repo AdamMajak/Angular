@@ -1,3 +1,22 @@
-<div [ngIf]="player">
+@if (player) {
   <h2>{{ player.nickname }}</h2>
-</div>
+  <p>Level: {{ player.level }}</p>
+
+  @if (getClan()) {
+    <div>
+      Clan:
+      <a (click)="goToClan(getClan()!.id)">
+        {{ getClan()!.name }}
+      </a>
+    </div>
+  }
+
+  <h3>Quests</h3>
+  <ul>
+    @for (q of getPlayerQuests(); track $index) {
+      <li>
+        <a (click)="goToQuest(q.id)">{{ q.title }}</a>
+      </li>
+    }
+  </ul>
+}

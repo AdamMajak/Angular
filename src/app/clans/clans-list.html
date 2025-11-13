@@ -1,9 +1,0 @@
-<h2>Clans</h2>
-<button (click)="addClan()">Add Clan</button>
-
-<ul>
-  <li *ngFor="let clan of clans()">
-    <a [routerLink]="['/clans', clan.id]">{{ clan.name }}</a>
-    <button (click)="removeClan(clan.id)">Delete</button>
-  </li>
-</ul>

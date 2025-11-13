@@ -2,12 +2,28 @@
   <button (click)="addQuest()">Add Quest</button>
   <p>Current quests: {{ questCount() }}</p>
 
-  <ng-container *ngFor="let quest of quests(); trackBy: trackById">
-    <a [routerLink]="['/quests', quest.id]" class="quest-link">
-      <app-quest-item 
-        [quest]="quest" 
-        (delete)="deleteQuest($event)">
-      </app-quest-item>
-    </a>
-  </ng-container>
+  @if (quests().length > 0) {
+    @for (quest of quests(); track trackById($index, quest); let i = $index) {
+        <a [routerLink]="['/quests', quest.id]" class="quest-link">
+        <app-quest-item
+          [quest]="quest"
+          (delete)="deleteQuest($event)">
+        </app-quest-item>
+      </a>
+
+      @if (quest.xp > 100) {
+        <p class="xp-badge mega">→ MEGA XP!</p>
+      } @else if (quest.xp > 50) {
+        <p class="xp-badge super">→ SUPER XP!</p>
+      } @else {
+        <p class="xp-badge">→ Keep going...</p>
+      }
+
+      <p>#{{ i + 1 }}</p>
+    } @empty {
+      <p>No quests available. Add some!</p>
+    }
+  } @else {
+    <p>No quests yet. Click "Add Quest" to start!</p>
+  }
 </main>
