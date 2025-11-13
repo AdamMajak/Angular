@@ -1,4 +1,8 @@
 <header>
-  <img src="assets/logo.svg" alt="Header image">
-  <h1>{{ title }}</h1>
+  @if (header) {
+    <img src="assets/logo.svg" alt="Header image">
+    <h1>{{ header }}</h1>
+  } @else {
+    <h1>Quest Overflow</h1>
+  }
 </header>

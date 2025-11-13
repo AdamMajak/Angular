@@ -9,7 +9,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrls: ['./app.css'],
 })
 export class App {
-  protected readonly title = signal('quests');
+  title = signal('quests');       
   header = 'Quest Overflow';
   header_logo = 'meteor-original.svg';
 }

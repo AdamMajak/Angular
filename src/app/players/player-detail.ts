@@ -1,25 +1,44 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';    
-import { RouterModule } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { PlayersService } from '../services/players.service';
-import { Player } from '../models/players.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PlayersService } from './players.service';
+import { ClansService } from '../clans/clans.service';
+import { QuestsService } from '../quests/quests.service';
+import { Quest } from '../quests/quest-item';
 
 @Component({
   selector: 'app-player-detail',
   standalone: true,
-  imports: [NgIf, RouterModule],         
-  templateUrl: './player-detail.html',
-  styleUrls: ['./player-detail.css']
+  templateUrl: 'player-detail.html',
 })
 export class PlayerDetailComponent {
-  player?: Player;
+  player = this.players.getPlayer(Number(this.route.snapshot.params['id']));
 
   constructor(
     private route: ActivatedRoute,
-    private playersService: PlayersService
-  ) {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.player = this.playersService.getPlayerById(id);
+    private router: Router,
+    private players: PlayersService,
+    private clans: ClansService,
+    private quests: QuestsService
+  ) {}
+
+ 
+  getPlayerQuests(): Quest[] {
+    return this.player?.quests
+      .map(id => this.quests.getQuest(id))
+      .filter((q): q is Quest => !!q) ?? [];
+  }
+
+  
+  getClan() {
+    return this.player?.clanId ? this.clans.getClan(this.player.clanId) : null;
+  }
+
+ 
+  goToQuest(id: number) {
+    this.router.navigate(['/quests', id]);
+  }
+
+  goToClan(id: number) {
+    this.router.navigate(['/clans', id]);
   }
 }

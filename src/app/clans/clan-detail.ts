@@ -1,18 +1,41 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ClansService } from '../services/clans.service';
-import { Clan } from '../models/clans.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ClansService } from './clans.service';
+import { PlayersService } from '../players/players.service';
 
 @Component({
   selector: 'app-clan-detail',
-  templateUrl: './clan-detail.html',
-  styleUrls: ['./clan-detail.css']
+  templateUrl: 'clan-detail.html',
 })
 export class ClanDetailComponent {
-  clan?: Clan;
+  clan = this.clans.getClan(Number(this.route.snapshot.params['id']));
 
-  constructor(private route: ActivatedRoute, private clansService: ClansService) {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.clan = this.clansService.getClanById(id);
+  constructor(
+    private route: ActivatedRoute,
+    private clans: ClansService,
+    public players: PlayersService, // public namiesto private
+    private router: Router
+  ) {}
+
+  members() {
+    return this.clan?.members
+      .map(id => this.players.getPlayer(id))
+      .filter(Boolean);
+  }
+
+  addPlayer(id: number) {
+    if (this.clan) {
+      this.clans.addPlayerToClan(this.clan.id, id);
+    }
+  }
+
+  removePlayer(id: number) {
+    if (this.clan) {
+      this.clans.removePlayerFromClan(this.clan.id, id);
+    }
+  }
+
+  goToPlayer(id: number) {
+    this.router.navigate(['/players', id]);
   }
 }

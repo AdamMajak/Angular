@@ -1,0 +1,14 @@
+<h2>Clans</h2>
+
+<button (click)="addClan()">Add Clan</button>
+
+<ul>
+  @for (c of list(); track c.id) {
+    <li (click)="goToClan(c.id)">
+      <strong>{{ c.name }}</strong>
+      ({{ c.members.length }}/{{ c.capacity }})
+
+      <button (click)="deleteClan(c.id); $event.stopPropagation()">Delete</button>
+    </li>
+  }
+</ul>

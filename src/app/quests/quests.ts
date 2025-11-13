@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './quests.html',
   styleUrls: ['./quests.css']
 })
-export class Quests {
+export class Quests {  
   quests = signal<Quest[]>([]);
   questCount = computed(() => this.quests().length);
 
@@ -21,7 +21,7 @@ export class Quests {
 
   addQuest() {
     const quests = this.quests();
-    const maxId = quests.length > 0 ? Math.max(...quests.map((q: Quest) => q.id)) : 0;
+    const maxId = quests.length > 0 ? Math.max(...quests.map(q => q.id)) : 0;
     const newQuest: Quest = {
       id: maxId + 1,
       title: 'New Quest',
