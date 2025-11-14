@@ -27,6 +27,8 @@ export class ClansService {
     }
   ]);
 
+ 
+
   getClans() {
     return this.clans();
   }
@@ -35,27 +37,41 @@ export class ClansService {
     return this.clans().find(c => c.id === id);
   }
 
+  
+
   addClan() {
-    const newId = Math.max(...this.clans().map(c => c.id)) + 1;
+    const allIds = this.clans().map(c => c.id);
+    const newId = allIds.length ? Math.max(...allIds) + 1 : 1;
+
     const newClan: Clan = {
       id: newId,
       name: 'New Clan',
       description: 'A newly created clan.',
       capacity: 20,
       members: [],
+      image: 'assets/default-clan.png'
     };
+
     this.clans.update(clans => [...clans, newClan]);
   }
 
   deleteClan(id: number) {
+    
     this.clans.update(clans => clans.filter(c => c.id !== id));
+
+    
+    this.playersService.players.update(players =>
+      players.map(p => p.clanId === id ? { ...p, clanId: undefined } : p)
+    );
   }
+
+ 
 
   addPlayerToClan(clanId: number, playerId: number) {
     this.clans.update(clans =>
       clans.map(c => {
         if (c.id === clanId) {
-          if (c.members.length < c.capacity) {
+          if (c.members.length < c.capacity && !c.members.includes(playerId)) {
             return { ...c, members: [...c.members, playerId] };
           }
         }
@@ -63,13 +79,11 @@ export class ClansService {
       })
     );
 
-    const player = this.playersService.getPlayer(playerId);
-    if (player) {
-      this.playersService.updatePlayer({
-        ...player,
-        clanId
-      });
-    }
+   
+    this.playersService.updatePlayer({
+      ...this.playersService.getPlayer(playerId)!,
+      clanId
+    });
   }
 
   removePlayerFromClan(clanId: number, playerId: number) {
@@ -81,12 +95,10 @@ export class ClansService {
       )
     );
 
-    const player = this.playersService.getPlayer(playerId);
-    if (player) {
-      this.playersService.updatePlayer({
-        ...player,
-        clanId: undefined
-      });
-    }
+   
+    this.playersService.updatePlayer({
+      ...this.playersService.getPlayer(playerId)!,
+      clanId: undefined
+    });
   }
 }

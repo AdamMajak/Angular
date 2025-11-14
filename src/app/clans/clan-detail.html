@@ -1,24 +1,23 @@
-@if (clan) {
-  <h2>{{ clan.name }}</h2>
-  <p>{{ clan.description }}</p>
+<h2>Clan Members</h2>
 
-  <h3>Members</h3>
-  <ul>
-    @for (m of members(); track m!.id) {
-      <li>
-        <span (click)="goToPlayer(m!.id)">
-          {{ m!.nickname }} (Level {{ m!.level }})
-        </span>
+<ul>
+  @for (let member of members(); track member.id)
+    <li>
+      {{ member.name }} (Level {{ member.level }})
+      <button (click)="removeMember(member)">Remove</button>
+    </li>
+  @end
+</ul>
 
-        <button (click)="removePlayer(m!.id)">Remove</button>
-      </li>
-    }
-  </ul>
+<h3>Add New Member</h3>
+<input #newMember placeholder="Player Name">
+<button (click)="addMember(newMember.value); newMember.value=''">Add</button>
 
-  <h3>Add Player</h3>
-  @for (p of players.players(); track p.id) {
-    @if (!clan.members.includes(p.id)) {
-      <button (click)="addPlayer(p.id)">{{ p.nickname }}</button>
-    }
-  }
-}
+<h2>Players</h2>
+<ul>
+  @for (let p of players(); track p.id)
+    @if (p.clanId === undefined)
+      <li>{{ p.name }} (Level {{ p.level }}) - Unassigned</li>
+    @end
+  @end
+</ul>

@@ -8,7 +8,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
-export class App {
+export class AppComponent {
   title = signal('quests');       
   header = 'Quest Overflow';
   header_logo = 'meteor-original.svg';

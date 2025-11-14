@@ -1,41 +1,39 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ClansService } from './clans.service';
-import { PlayersService } from '../players/players.service';
+import { Component, signal } from '@angular/core';
+
+interface Member {
+  id: number;
+  name: string;
+  level: number;
+  clanId?: number;
+}
 
 @Component({
   selector: 'app-clan-detail',
-  templateUrl: 'clan-detail.html',
+  standalone: true,
+  templateUrl: './clan-detail.html',
 })
 export class ClanDetailComponent {
-  clan = this.clans.getClan(Number(this.route.snapshot.params['id']));
+  
+  members = signal<Member[]>([
+    { id: 1, name: 'ShadowHunter', level: 12 },
+    { id: 2, name: 'DragonSlayer', level: 15 }
+  ]);
 
-  constructor(
-    private route: ActivatedRoute,
-    private clans: ClansService,
-    public players: PlayersService, // public namiesto private
-    private router: Router
-  ) {}
+  
+  players = signal<Member[]>([
+    { id: 3, name: 'PlayerOne', level: 5 },
+    { id: 4, name: 'PlayerTwo', level: 7 }
+  ]);
 
-  members() {
-    return this.clan?.members
-      .map(id => this.players.getPlayer(id))
-      .filter(Boolean);
-  }
+  nextId = 5;
 
-  addPlayer(id: number) {
-    if (this.clan) {
-      this.clans.addPlayerToClan(this.clan.id, id);
+  addMember(name: string) {
+    if (name) {
+      this.members.update(list => [...list, { id: this.nextId++, name, level: 1 }]);
     }
   }
 
-  removePlayer(id: number) {
-    if (this.clan) {
-      this.clans.removePlayerFromClan(this.clan.id, id);
-    }
-  }
-
-  goToPlayer(id: number) {
-    this.router.navigate(['/players', id]);
+  removeMember(member: Member) {
+    this.members.update(list => list.filter(m => m !== member));
   }
 }
