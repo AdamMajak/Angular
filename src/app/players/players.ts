@@ -1,28 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PlayersService } from './players.service';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-players',
   standalone: true,
-  templateUrl: 'players.html'
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './players.html',
+  styleUrls: ['./players.css']
 })
 export class PlayersComponent {
-  constructor(private players: PlayersService, private router: Router) {}
+  playersList = signal(this.playersService.players());
+  newNickname = '';
+  newLevel = 1;
 
-  playersList() {
-    return this.players.players();
-  }
+  constructor(private playersService: PlayersService, private router: Router) {}
 
   addPlayer() {
-    this.players.addPlayer();
+    if (!this.newNickname.trim()) return;
+    this.playersService.createCustomPlayer(this.newNickname, this.newLevel);
+    this.playersList.set(this.playersService.players());
+    this.newNickname = '';
+    this.newLevel = 1;
   }
 
-  delete(id: number) {
-    this.players.deletePlayer(id);
+  deletePlayer(id: number, event: Event) {
+    event.stopPropagation();
+    this.playersService.deletePlayer(id);
+    this.playersList.set(this.playersService.players());
   }
 
   goToPlayer(id: number) {
     this.router.navigate(['/players', id]);
+  }
+
+  trackById(index: number, player: any) {
+    return player.id;
   }
 }

@@ -1,25 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ClansService } from './clans.service';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-clans',
-  templateUrl: 'clans.html',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './clans.html',
+  styleUrls: ['./clans.css']
 })
 export class ClansComponent {
-  constructor(private clans: ClansService, private router: Router) {}
+  list = signal(this.clansService.clans());
+  newName = '';
+  newDescription = '';
+  newCapacity = 10;
 
-  list = this.clans.clans;
+  constructor(private clansService: ClansService, private router: Router) {}
 
   addClan() {
-    this.clans.addClan();
+    if (!this.newName.trim()) return;
+    this.clansService.createCustomClan(this.newName, this.newDescription, this.newCapacity);
+    this.list.set(this.clansService.clans());
+    this.newName = '';
+    this.newDescription = '';
+    this.newCapacity = 10;
   }
 
-  deleteClan(id: number) {
-    this.clans.deleteClan(id);
+  deleteClan(id: number, event: Event) {
+    event.stopPropagation();
+    this.clansService.deleteClan(id);
+    this.list.set(this.clansService.clans());
   }
 
   goToClan(id: number) {
     this.router.navigate(['/clans', id]);
+  }
+
+  trackById(index: number, clan: any) {
+    return clan.id;
   }
 }

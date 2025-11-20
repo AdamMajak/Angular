@@ -52,4 +52,17 @@ export class PlayersService {
       players.map(p => p.id === updatedPlayer.id ? updatedPlayer : p)
     );
   }
+
+  createCustomPlayer(nickname: string, level: number) {
+  const newId = Math.max(...this.players().map(p => p.id)) + 1;
+  const newPlayer = {
+    id: newId,
+    nickname,
+    level,
+    clanId: undefined,
+    quests: []
+  };
+  this.players.update(players => [...players, newPlayer]);
+}
+
 }

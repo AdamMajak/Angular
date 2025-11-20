@@ -89,4 +89,18 @@ export class ClansService {
       });
     }
   }
+
+
+  createCustomClan(name: string, description: string, capacity: number) {
+  const newId = Math.max(...this.clans().map(c => c.id)) + 1;
+  const newClan = {
+    id: newId,
+    name,
+    description,
+    capacity,
+    members: []
+  };
+  this.clans.update(clans => [...clans, newClan]);
+}
+
 }

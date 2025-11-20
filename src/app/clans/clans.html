@@ -1,14 +1,29 @@
 <h2>Clans</h2>
-
-<button (click)="addClan()">Add Clan</button>
+<div class="actions">
+  <h3>Add Clan</h3>
+  <label>Name:
+    <input [(ngModel)]="newName" placeholder="Clan name">
+  </label>
+  <label>Description:
+    <input [(ngModel)]="newDescription" placeholder="Optional description">
+  </label>
+  <label>Capacity:
+    <input type="number" [(ngModel)]="newCapacity" min="1">
+  </label>
+  <button (click)="addClan()">Add Clan</button>
+</div>
 
 <ul>
-  @for (c of list(); track c.id) {
-    <li (click)="goToClan(c.id)">
-      <strong>{{ c.name }}</strong>
-      ({{ c.members.length }}/{{ c.capacity }})
-
-      <button (click)="deleteClan(c.id); $event.stopPropagation()">Delete</button>
-    </li>
+  @if (list().length > 0) {
+    @for (c of list(); track trackById($index, c)) {
+      <li>
+        <span (click)="goToClan(c.id)">
+          <strong>{{ c.name }}</strong> ({{ c.members.length }}/{{ c.capacity }})
+        </span>
+        <button (click)="deleteClan(c.id, $event)">Delete</button>
+      </li>
+    } @empty {
+      <p>No clans yet.</p>
+    }
   }
 </ul>

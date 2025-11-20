@@ -9,6 +9,7 @@ import { Quest } from './quest-item';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './quest-detail.html',
+  styleUrls: ['./quest-detail.css']
 })
 export class QuestDetailComponent {
   quest?: Quest;
@@ -19,7 +20,7 @@ export class QuestDetailComponent {
     private questsService: QuestsService
   ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.quest = this.questsService.getQuest(id); // <-- použitie novej metódy getQuest
+    this.quest = this.questsService.getQuest(id);
   }
 
   goBack(): void {

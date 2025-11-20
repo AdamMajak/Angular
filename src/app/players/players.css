@@ -1,10 +1,11 @@
-main {
+:host {
+  display: block;
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
   background-color: #f8f9fa;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -21,8 +22,16 @@ h2 {
   margin-bottom: 2rem;
 }
 
+.actions label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #555;
+}
+
 .actions input {
   padding: 0.4rem 0.6rem;
+  margin-top: 0.2rem;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
@@ -31,11 +40,11 @@ h2 {
   padding: 0.5rem 1rem;
   background-color: #007bff;
   color: #fff;
+  font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  font-weight: 500;
   align-self: flex-start;
 }
 
@@ -43,43 +52,45 @@ h2 {
   background-color: #0056b3;
 }
 
-.quest-card {
-  background-color: #ffffff;
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 0.8rem 1rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
-.quest-link {
-  text-decoration: none;
+li:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+li span {
+  flex-grow: 1;
   color: #333;
 }
 
-.quest-link h4 {
-  margin: 0 0 0.2rem 0;
-}
-
-.quest-footer {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.quest-footer button {
+li button {
   padding: 0.3rem 0.7rem;
   background-color: #dc3545;
   color: #fff;
+  font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
-.quest-footer button:hover {
+li button:hover {
   background-color: #a71d2a;
 }

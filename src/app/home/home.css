@@ -1,12 +1,43 @@
 .home {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  margin-top: 50px;
-  font-family: Arial, sans-serif;
 }
-.home a {
-  color: #007acc;
+
+.home h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.home p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.home ul {
+  list-style: none;
+  padding: 0;
+}
+
+.home ul li {
+  margin: 0.8rem 0;
+}
+
+.home ul li a {
   text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
-.home a:hover {
+
+.home ul li a:hover {
+  color: #0056b3;
   text-decoration: underline;
 }

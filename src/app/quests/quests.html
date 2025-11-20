@@ -1,29 +1,37 @@
 <main>
-  <button (click)="addQuest()">Add Quest</button>
-  <p>Current quests: {{ questCount() }}</p>
+  <div class="actions">
+    <h2>Quests</h2>
+    <h3>Add New Quest</h3>
+    <label>Title:
+      <input [(ngModel)]="newTitle" placeholder="Quest title">
+    </label>
+    <label>Description:
+      <input [(ngModel)]="newDescription" placeholder="Optional description">
+    </label>
+    <label>XP:
+      <input type="number" [(ngModel)]="newXp" min="0">
+    </label>
+    <button (click)="addQuest()">Add Quest</button>
+    <p>Current quests: {{ questCount() }}</p>
+  </div>
 
   @if (quests().length > 0) {
     @for (quest of quests(); track trackById($index, quest); let i = $index) {
+      <div class="quest-card">
         <a [routerLink]="['/quests', quest.id]" class="quest-link">
-        <app-quest-item
-          [quest]="quest"
-          (delete)="deleteQuest($event)">
-        </app-quest-item>
-      </a>
+          <h4>{{ quest.title }}</h4>
+          <p>{{ quest.description }}</p>
+        </a>
 
-      @if (quest.xp > 100) {
-        <p class="xp-badge mega">→ MEGA XP!</p>
-      } @else if (quest.xp > 50) {
-        <p class="xp-badge super">→ SUPER XP!</p>
-      } @else {
-        <p class="xp-badge">→ Keep going...</p>
-      }
-
-      <p>#{{ i + 1 }}</p>
+        <div class="quest-footer">
+          <span>XP: {{ quest.xp }}</span>
+          <button (click)="deleteQuest(quest.id)">Delete</button>
+        </div>
+      </div>
     } @empty {
       <p>No quests available. Add some!</p>
     }
   } @else {
-    <p>No quests yet. Click "Add Quest" to start!</p>
+    <p>No quests yet. Add a quest above!</p>
   }
 </main>
