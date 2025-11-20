@@ -19,4 +19,8 @@ export const routes: Routes = [
 
   { path: 'clans', component: ClansComponent },
   { path: 'clans/:id', component: ClanDetailComponent },
+
+
 ];
+
+

@@ -1,4 +1,3 @@
-// quests.service.ts
 import { Injectable, signal } from '@angular/core';
 import { Quest } from './quest-item';
 
@@ -16,7 +15,7 @@ export class QuestsService {
     return this._quests();
   }
 
-  getQuest(id: number): Quest | undefined {  
+  getQuest(id: number): Quest | undefined {
     return this._quests().find(q => q.id === id);
   }
 

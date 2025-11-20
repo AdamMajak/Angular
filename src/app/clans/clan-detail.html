@@ -4,21 +4,30 @@
 
   <h3>Members</h3>
   <ul>
-    @for (m of members(); track m!.id) {
+    @for (m of members(); track m.id) {
       <li>
-        <span (click)="goToPlayer(m!.id)">
-          {{ m!.nickname }} (Level {{ m!.level }})
+        <span (click)="goToPlayer(m.id)" style="cursor: pointer;">
+          {{ m.nickname }} (Level {{ m.level }})
         </span>
-
-        <button (click)="removePlayer(m!.id)">Remove</button>
+        <button (click)="$event.stopPropagation(); removePlayer(m.id)">Remove</button>
       </li>
     }
   </ul>
 
   <h3>Add Player</h3>
   @for (p of players.players(); track p.id) {
-    @if (!clan.members.includes(p.id)) {
-      <button (click)="addPlayer(p.id)">{{ p.nickname }}</button>
+    @if (!(clan.members ?? []).includes(p.id)) {
+      <button class="add-player" (click)="$event.stopPropagation(); addPlayer(p.id)">
+      {{ p.nickname }}
+</button>
+
     }
   }
+
+  <br /><br />
+  <button class="back" (click)="goBack()">← Back to clans</button>
+
+} @else {
+  <p>Clan not found.</p>
+  <button (click)="goBack()">Go back</button>
 }

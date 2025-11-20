@@ -19,4 +19,10 @@
       </li>
     }
   </ul>
+
+  <br /><br />
+  <button (click)="goBack()">← Back to players</button>
+} @else {
+  <p>Player not found.</p>
+  <button (click)="goBack()">Go back</button>
 }

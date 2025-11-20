@@ -1,4 +1,4 @@
-<div *ngIf="quest; else notFound">
+@if (quest) {
   <h2>{{ quest.title }}</h2>
   <p>{{ quest.description }}</p>
   <p><strong>XP:</strong> {{ quest.xp }}</p>
@@ -8,9 +8,7 @@
 
   <br><br>
   <button (click)="goBack()">← Back to quests</button>
-</div>
-
-<ng-template #notFound>
+} @else {
   <p>Quest not found.</p>
   <button (click)="goBack()">Go back</button>
-</ng-template>
+}

@@ -1,0 +1,47 @@
+.quest-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.quest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quest-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.quest-card p {
+  margin: 0.2rem 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.quest-card button {
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quest-card button:hover {
+  background-color: #a71d2a;
+}
+
+.quest-card p:last-of-type {
+  font-weight: 600;
+}
