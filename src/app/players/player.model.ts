@@ -1,7 +1,7 @@
 export interface Player {
   id: number;
   nickname: string;
-  level: number;
+  xp: number;
   clanId?: number;        
   quests: number[];       
   avatar?: string;        

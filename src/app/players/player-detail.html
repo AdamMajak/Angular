@@ -1,23 +1,25 @@
-@if (player) {
+@if(player) {
   <h2>{{ player.nickname }}</h2>
-  <p>Level: {{ player.level }}</p>
+  <p>Total XP: {{ getTotalXP() }}</p>
+  <p>
+    Level: {{ getLevelInfo().current.title }} ({{ getLevelInfo().current.level }})<br>
+    {{ getXPToNextLevel() }} XP to next level ({{ getLevelInfo().next.title }})
+  </p>
 
-  @if (getClan()) {
+  @if(getClan()) {
     <div>
-      Clan:
-      <a (click)="goToClan(getClan()!.id)">
-        {{ getClan()!.name }}
-      </a>
+      Clan: <a (click)="goToClan(getClan()!.id)">{{ getClan()!.name }}</a>
     </div>
   }
 
   <h3>Quests</h3>
   <ul>
-    @for (q of getPlayerQuests(); track $index) {
-      <li>
-        <a (click)="goToQuest(q.id)">{{ q.title }}</a>
-      </li>
-    }
+      @for(q of getPlayerQuests(); track q.id) {
+  <li>
+    <a (click)="goToQuest(q.id)">{{ q.title }}</a>
+  </li>
+}
+
   </ul>
 
   <br /><br />

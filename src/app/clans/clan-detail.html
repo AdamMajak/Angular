@@ -7,7 +7,7 @@
     @for (m of members(); track m.id) {
       <li>
         <span (click)="goToPlayer(m.id)" style="cursor: pointer;">
-          {{ m.nickname }} (Level {{ m.level }})
+          {{ m.nickname }} (Level {{ getLevel(m).title }})
         </span>
         <button (click)="$event.stopPropagation(); removePlayer(m.id)">Remove</button>
       </li>
@@ -18,9 +18,8 @@
   @for (p of players.players(); track p.id) {
     @if (!(clan.members ?? []).includes(p.id)) {
       <button class="add-player" (click)="$event.stopPropagation(); addPlayer(p.id)">
-      {{ p.nickname }}
-</button>
-
+        {{ p.nickname }}
+      </button>
     }
   }
 

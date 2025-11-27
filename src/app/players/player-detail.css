@@ -52,7 +52,9 @@ li {
   padding: 0.6rem 1rem;
   margin-bottom: 0.8rem;
   transition: box-shadow 0.2s ease;
-  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 li:hover {
@@ -60,7 +62,7 @@ li:hover {
 }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.7rem;
   background-color: #007bff;
   color: #fff;
   font-weight: 500;
@@ -68,7 +70,8 @@ button {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  margin-top: 1.5rem;
+  margin-left: 1rem;
+  flex-shrink: 0;
 }
 
 button:hover {
@@ -77,4 +80,31 @@ button:hover {
 
 div {
   margin: 0.5rem 0;
+}
+
+
+.xp-container {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  margin: 0.5rem 0 1rem 0;
+  position: relative;
+}
+
+.xp-bar {
+  background-color: #4caf50;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.xp-text {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 20px;
 }

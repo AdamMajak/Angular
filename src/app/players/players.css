@@ -15,21 +15,21 @@ h2 {
   margin-bottom: 1rem;
 }
 
-.actions {
+.actions, .filters {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   margin-bottom: 2rem;
 }
 
-.actions label {
+.actions label, .filters label {
   display: flex;
   flex-direction: column;
   font-weight: 500;
   color: #555;
 }
 
-.actions input {
+.actions input, .filters select {
   padding: 0.4rem 0.6rem;
   margin-top: 0.2rem;
   border: 1px solid #ccc;

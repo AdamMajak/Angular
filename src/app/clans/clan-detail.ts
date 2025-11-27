@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ClansService } from './clans.service';
 import { PlayersService } from '../players/players.service';
+import { playerLevels } from '../players/levels';
 
 @Component({
   selector: 'app-clan-detail',
@@ -49,5 +50,14 @@ export class ClanDetailComponent {
 
   trackById(_: number, item: { id: number }) {
     return item.id;
+  }
+
+  getLevel(player: any) {
+    let level = playerLevels[0];
+    for (const l of playerLevels) {
+      if (player.xp >= l.xpRequired) level = l;
+      else break;
+    }
+    return level;
   }
 }
