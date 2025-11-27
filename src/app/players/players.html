@@ -1,26 +1,38 @@
 <h2>Players</h2>
+
 <div class="actions">
   <h3>Add Player</h3>
   <label>Nickname:
     <input [(ngModel)]="newNickname" placeholder="Player nickname">
   </label>
-  <label>Level:
-    <input type="number" [(ngModel)]="newLevel" min="1">
+  <label>XP:
+    <input type="number" [(ngModel)]="newXP" min="1">
   </label>
   <button (click)="addPlayer()">Add Player</button>
 </div>
 
+<div class="filters">
+  <app-search (searchChange)="onSearchChange($event)"></app-search>
+
+  <label>Filter by Level:
+    <select [(ngModel)]="selectedLevel" (change)="onLevelChange(selectedLevel)">
+      <option value="">All</option>
+      <option *ngFor="let l of [ 'Novice','Apprentice','Adept','Expert','Master','Grandmaster','Legend','Mythic','Immortal','Eternal']">{{ l }}</option>
+    </select>
+  </label>
+</div>
+
 <ul>
-  @if (playersList().length > 0) {
-    @for (player of playersList(); track trackById($index, player)) {
+  @if(filteredPlayers().length > 0) {
+    @for(p of filteredPlayers(); track trackById($index, p)) {
       <li>
-        <span (click)="goToPlayer(player.id)">
-          <strong>{{ player.nickname }}</strong> — Level: {{ player.level }}
+        <span (click)="goToPlayer(p.id)">
+          <strong>{{ p.nickname }}</strong> — Level: {{ getPlayerLevel(p).title }} (XP: {{ p.xp }})
         </span>
-        <button (click)="deletePlayer(player.id, $event)">Delete</button>
+        <button (click)="deletePlayer(p.id, $event)">Delete</button>
       </li>
     } @empty {
-      <p>No players yet.</p>
+      <p>No players found.</p>
     }
   }
 </ul>

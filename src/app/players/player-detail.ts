@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { PlayersService } from './players.service';
 import { ClansService } from '../clans/clans.service';
 import { QuestsService } from '../quests/quests.service';
+import { playerLevels, PlayerLevel } from './levels';
 import { Quest } from '../quests/quest-item';
 
 @Component({
@@ -32,6 +33,32 @@ export class PlayerDetailComponent {
 
   getClan() {
     return this.player?.clanId ? this.clans.getClan(this.player.clanId) : null;
+  }
+
+  getTotalXP(): number {
+    return this.player?.quests
+      .map(id => this.quests.getQuest(id))
+      .filter(q => !!q)
+      .reduce((sum, q) => sum + (q?.xp ?? 0), 0) ?? 0;
+  }
+
+  getLevelInfo(): { current: PlayerLevel; next: PlayerLevel } {
+    const xp = this.getTotalXP();
+    let current = playerLevels[0];
+    let next = playerLevels[1];
+    for (let i = 0; i < playerLevels.length; i++) {
+      if (xp >= playerLevels[i].xpRequired) current = playerLevels[i];
+      if (xp < playerLevels[i].xpRequired) {
+        next = playerLevels[i];
+        break;
+      }
+    }
+    return { current, next };
+  }
+
+  getXPToNextLevel(): number {
+    const info = this.getLevelInfo();
+    return Math.max(0, info.next.xpRequired - this.getTotalXP());
   }
 
   goToQuest(id: number) {
