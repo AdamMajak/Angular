@@ -12,19 +12,35 @@
     </div>
   }
 
-  <h3>Quests</h3>
+  <h3>Assigned quests</h3>
   <ul>
-      @for(q of getPlayerQuests(); track q.id) {
-  <li>
-    <a (click)="goToQuest(q.id)">{{ q.title }}</a>
-  </li>
-}
+    @for(q of assignedQuests; track q.id) {
+      <li>
+        <a (click)="goToQuest(q.id)">{{ q.title }}</a>
+        <button (click)="markCompleted(q)">✔ Complete</button>
+      </li>
+    } @empty {
+      <li>No assigned quests.</li>
+    }
+  </ul>
 
+  <h3>Completed quests</h3>
+  <ul>
+    @for(q of completedQuests; track q.id) {
+      <li>
+        <a (click)="goToQuest(q.id)">{{ q.title }}</a>
+        <button (click)="markUncompleted(q)">↺ Undo</button>
+      </li>
+    } @empty {
+      <li>No completed quests.</li>
+    }
   </ul>
 
   <br /><br />
   <button (click)="goBack()">← Back to players</button>
+
 } @else {
   <p>Player not found.</p>
   <button (click)="goBack()">Go back</button>
 }
+ng update @angular/cli@21
