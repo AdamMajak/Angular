@@ -6,8 +6,16 @@ import { Player } from './player.model';
 })
 export class PlayersService {
   players = signal<Player[]>([
-    { id: 1, nickname: 'ShadowHunter', xp: 12, clanId: 1, quests: [1, 2], avatar: 'assets/avatar1.png' },
-    { id: 2, nickname: 'FireMage', xp: 7, clanId: 2, quests: [3], avatar: 'assets/avatar2.png' }
+    {
+      id: 1,
+      nickname: 'ShadowHunter',
+      xp: 12,
+      clanId: 1,
+      quests: [1, 2],
+      avatar: 'assets/avatar1.png',
+      assignedQuests: [1, 2],      // pridajp      assignedQuests: [3],
+      completedQuests: []
+    }
   ]);
 
   getPlayers() {
@@ -18,9 +26,17 @@ export class PlayersService {
     return this.players().find(p => p.id === id);
   }
 
-  addPlayer(nickname: string = 'NewPlayer', xp: number = 1) {
-    const newId = this.players().length > 0 ? Math.max(...this.players().map(p => p.id)) + 1 : 1;
-    const newPlayer: Player = { id: newId, nickname, xp, quests: [], clanId: undefined };
+  addPlayer() {
+    const newId = Math.max(...this.players().map(p => p.id)) + 1;
+    const newPlayer: Player = {
+      id: newId,
+      nickname: 'NewPlayer',
+      xp: 1,
+      quests: [],
+      clanId: undefined,
+      assignedQuests: [],
+      completedQuests: []
+    };
     this.players.update(players => [...players, newPlayer]);
   }
 
@@ -35,6 +51,16 @@ export class PlayersService {
   }
 
   createCustomPlayer(nickname: string, xp: number) {
-    this.addPlayer(nickname, xp);
+    const newId = Math.max(...this.players().map(p => p.id)) + 1;
+    const newPlayer: Player = {
+      id: newId,
+      nickname,
+      xp,
+      clanId: undefined,
+      quests: [],
+      assignedQuests: [],
+      completedQuests: []
+    };
+    this.players.update(players => [...players, newPlayer]);
   }
 }
