@@ -4,5 +4,7 @@ export interface Player {
   xp: number;
   clanId?: number;        
   quests: number[];       
-  avatar?: string;        
+  avatar?: string;    
+  assignedQuests: number[];
+  completedQuests: number[];    
 }
