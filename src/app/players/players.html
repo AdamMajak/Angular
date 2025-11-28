@@ -17,7 +17,9 @@
   <label>Filter by Level:
     <select [(ngModel)]="selectedLevel" (change)="onLevelChange(selectedLevel)">
       <option value="">All</option>
-      <option *ngFor="let l of [ 'Novice','Apprentice','Adept','Expert','Master','Grandmaster','Legend','Mythic','Immortal','Eternal']">{{ l }}</option>
+      @for (l of [ 'Novice','Apprentice','Adept','Expert','Master','Grandmaster','Legend','Mythic','Immortal','Eternal']; track l) {
+        <option>{{ l }}</option>
+      }
     </select>
   </label>
 </div>
@@ -31,7 +33,7 @@
         </span>
         <button (click)="deletePlayer(p.id, $event)">Delete</button>
       </li>
-    } @empty {
+      } @empty {
       <p>No players found.</p>
     }
   }

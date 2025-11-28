@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestsService } from './quests.service';
 import { Quest } from './quest-item';
@@ -7,7 +7,7 @@ import { Quest } from './quest-item';
 @Component({
   selector: 'app-quest-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './quest-detail.html',
   styleUrls: ['./quest-detail.css']
 })

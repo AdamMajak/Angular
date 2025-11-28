@@ -1,5 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { PlayersService } from './players.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { Search } from '../search/search';
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Search],
+  imports: [FormsModule, RouterModule, Search],
   templateUrl: './players.html',
   styleUrls: ['./players.css']
 })
