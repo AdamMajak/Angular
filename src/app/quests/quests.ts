@@ -1,5 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { QuestItemComponent, Quest } from './quest-item';
 import { QuestsService } from './quests.service';
 import { RouterModule } from '@angular/router';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-quests',
   standalone: true,
-  imports: [CommonModule, QuestItemComponent, RouterModule, FormsModule],
+  imports: [QuestItemComponent, RouterModule, FormsModule],
   templateUrl: './quests.html',
   styleUrls: ['./quests.css']
 })
