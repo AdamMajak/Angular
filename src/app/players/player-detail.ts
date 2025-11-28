@@ -14,7 +14,11 @@ import { Quest } from '../quests/quest-item';
   styleUrls: ['./player-detail.css']
 })
 export class PlayerDetailComponent {
+
   player = this.players.getPlayer(Number(this.route.snapshot.params['id']));
+
+  assignedQuests: Quest[] = [];
+  completedQuests: Quest[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -25,10 +29,38 @@ export class PlayerDetailComponent {
     private quests: QuestsService
   ) {}
 
-  getPlayerQuests(): Quest[] {
-    return this.player?.quests
+  ngOnInit() {
+    this.refreshQuestLists();
+  }
+
+  refreshQuestLists() {
+    if (!this.player) return;
+
+    this.assignedQuests = this.player.assignedQuests
       .map(id => this.quests.getQuest(id))
-      .filter((q): q is Quest => !!q) ?? [];
+      .filter((q): q is Quest => !!q);
+
+    this.completedQuests = this.player.completedQuests
+      .map(id => this.quests.getQuest(id))
+      .filter((q): q is Quest => !!q);
+  }
+
+  markCompleted(q: Quest) {
+    if (!this.player) return;
+
+    this.player.assignedQuests = this.player.assignedQuests.filter(id => id !== q.id);
+    this.player.completedQuests.push(q.id);
+
+    this.refreshQuestLists();
+  }
+
+  markUncompleted(q: Quest) {
+    if (!this.player) return;
+
+    this.player.completedQuests = this.player.completedQuests.filter(id => id !== q.id);
+    this.player.assignedQuests.push(q.id);
+
+    this.refreshQuestLists();
   }
 
   getClan() {
@@ -36,23 +68,27 @@ export class PlayerDetailComponent {
   }
 
   getTotalXP(): number {
-    return this.player?.quests
+    if (!this.player) return 0;
+
+    return this.player.completedQuests
       .map(id => this.quests.getQuest(id))
       .filter(q => !!q)
-      .reduce((sum, q) => sum + (q?.xp ?? 0), 0) ?? 0;
+      .reduce((sum, q) => sum + (q?.xp ?? 0), 0);
   }
 
   getLevelInfo(): { current: PlayerLevel; next: PlayerLevel } {
     const xp = this.getTotalXP();
     let current = playerLevels[0];
-    let next = playerLevels[1];
-    for (let i = 0; i < playerLevels.length; i++) {
-      if (xp >= playerLevels[i].xpRequired) current = playerLevels[i];
-      if (xp < playerLevels[i].xpRequired) {
-        next = playerLevels[i];
+    let next = playerLevels[playerLevels.length - 1];
+
+    for (let lvl of playerLevels) {
+      if (xp >= lvl.xpRequired) current = lvl;
+      if (xp < lvl.xpRequired) {
+        next = lvl;
         break;
       }
     }
+
     return { current, next };
   }
 
