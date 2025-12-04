@@ -3,13 +3,13 @@
     <h2>Quests</h2>
     <h3>Add New Quest</h3>
     <label>Title:
-      <input [(ngModel)]="newTitle" placeholder="Quest title">
+      <input [field]="questForm.title" placeholder="Quest title">
     </label>
     <label>Description:
-      <input [(ngModel)]="newDescription" placeholder="Optional description">
+      <input [field]="questForm.description" placeholder="Optional description">
     </label>
     <label>XP:
-      <input type="number" [(ngModel)]="newXp" min="0">
+      <input type="number" [field]="questForm.xp">
     </label>
     <button (click)="addQuest()">Add Quest</button>
     <p>Current quests: {{ questCount() }}</p>

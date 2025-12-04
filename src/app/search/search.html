@@ -1,4 +1,4 @@
 <label>
   Search:
-  <input type="text" [(ngModel)]="query" (input)="onInputChange()" placeholder="Type to search">
+  <input type="text" [field]="searchForm.q" (input)="onInputChange()" placeholder="Type to search">
 </label>
