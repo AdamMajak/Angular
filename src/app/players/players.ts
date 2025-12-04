@@ -2,31 +2,31 @@ import { Component, signal, computed } from '@angular/core';
 
 import { PlayersService } from './players.service';
 import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { Search } from '../search/search';
+import { form, Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [FormsModule, RouterModule, Search],
+  imports: [RouterModule, Search, Field],
   templateUrl: './players.html',
   styleUrls: ['./players.css']
 })
 export class PlayersComponent {
   playersList = signal(this.playersService.players());
   filteredPlayers = signal(this.playersList());
-  newNickname = '';
-  newXP = 1;
-  selectedLevel = '';
+  private newPlayerModel = signal({ nickname: '', xp: 1 });
+  playerForm = form(this.newPlayerModel);
+  selectedLevel = signal('');
 
   constructor(private playersService: PlayersService, private router: Router) {}
 
   addPlayer() {
-    if (!this.newNickname.trim()) return;
-    this.playersService.createCustomPlayer(this.newNickname, this.newXP);
+    const nick = this.newPlayerModel().nickname?.trim();
+    if (!nick) return;
+    this.playersService.createCustomPlayer(nick, Number(this.newPlayerModel().xp));
     this.updatePlayers();
-    this.newNickname = '';
-    this.newXP = 1;
+    this.newPlayerModel.set({ nickname: '', xp: 1 });
   }
 
   deletePlayer(id: number, event: Event) {
@@ -45,24 +45,24 @@ export class PlayersComponent {
 
   updatePlayers() {
     let list = this.playersService.players();
-    if (this.selectedLevel) {
-      list = list.filter(p => this.getPlayerLevel(p).title === this.selectedLevel);
+    if (this.selectedLevel()) {
+      list = list.filter(p => this.getPlayerLevel(p).title === this.selectedLevel());
     }
-    if (this.searchQuery) {
-      const q = this.searchQuery.toLowerCase();
+    if (this.searchQuery()) {
+      const q = this.searchQuery().toLowerCase();
       list = list.filter(p => p.nickname.toLowerCase().includes(q));
     }
     this.filteredPlayers.set(list);
   }
 
-  searchQuery = '';
+  searchQuery = signal('');
   onSearchChange(query: string) {
-    this.searchQuery = query;
+    this.searchQuery.set(query);
     this.updatePlayers();
   }
 
   onLevelChange(level: string) {
-    this.selectedLevel = level;
+    this.selectedLevel.set(level);
     this.updatePlayers();
   }
 

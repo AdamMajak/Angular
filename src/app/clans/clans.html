@@ -2,14 +2,14 @@
 <div class="actions">
   <h3>Add Clan</h3>
   <label>Name:
-    <input [(ngModel)]="newName" placeholder="Clan name">
+    <input [field]="clanForm.name" placeholder="Clan name">
   </label>
   <label>Description:
-    <input [(ngModel)]="newDescription" placeholder="Optional description">
+    <input [field]="clanForm.description" placeholder="Optional description">
   </label>
-  <label>Capacity:
-    <input type="number" [(ngModel)]="newCapacity" min="1">
-  </label>
+    <label>Capacity:
+      <input type="number" [field]="clanForm.capacity">
+    </label>
   <button (click)="addClan()">Add Clan</button>
 </div>
 

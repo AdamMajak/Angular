@@ -1,31 +1,29 @@
 import { Component, signal } from '@angular/core';
 
 import { ClansService } from './clans.service';
-import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { form, Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-clans',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [RouterModule, Field],
   templateUrl: './clans.html',
   styleUrls: ['./clans.css']
 })
 export class ClansComponent {
   list = signal(this.clansService.clans());
-  newName = '';
-  newDescription = '';
-  newCapacity = 10;
+  private newClanModel = signal({ name: '', description: '', capacity: 10 });
+  clanForm = form(this.newClanModel);
 
   constructor(private clansService: ClansService, private router: Router) {}
 
   addClan() {
-    if (!this.newName.trim()) return;
-    this.clansService.createCustomClan(this.newName, this.newDescription, this.newCapacity);
+    const name = this.newClanModel().name?.trim();
+    if (!name) return;
+    this.clansService.createCustomClan(name, this.newClanModel().description, Number(this.newClanModel().capacity));
     this.list.set(this.clansService.clans());
-    this.newName = '';
-    this.newDescription = '';
-    this.newCapacity = 10;
+    this.newClanModel.set({ name: '', description: '', capacity: 10 });
   }
 
   deleteClan(id: number, event: Event) {
