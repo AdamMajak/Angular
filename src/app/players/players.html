@@ -3,10 +3,10 @@
 <div class="actions">
   <h3>Add Player</h3>
   <label>Nickname:
-    <input [(ngModel)]="newNickname" placeholder="Player nickname">
+    <input [field]="playerForm.nickname" placeholder="Player nickname">
   </label>
-  <label>XP:
-    <input type="number" [(ngModel)]="newXP" min="1">
+    <label>XP:
+    <input type="number" [field]="playerForm.xp">
   </label>
   <button (click)="addPlayer()">Add Player</button>
 </div>
@@ -15,7 +15,7 @@
   <app-search (searchChange)="onSearchChange($event)"></app-search>
 
   <label>Filter by Level:
-    <select [(ngModel)]="selectedLevel" (change)="onLevelChange(selectedLevel)">
+    <select [value]="selectedLevel()" (change)="onLevelChange($any($event.target).value)">
       <option value="">All</option>
       @for (l of [ 'Novice','Apprentice','Adept','Expert','Master','Grandmaster','Legend','Mythic','Immortal','Eternal']; track l) {
         <option>{{ l }}</option>

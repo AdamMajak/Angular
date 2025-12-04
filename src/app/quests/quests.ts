@@ -3,12 +3,12 @@ import { Component, signal, computed } from '@angular/core';
 import { QuestItemComponent, Quest } from './quest-item';
 import { QuestsService } from './quests.service';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { form, Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-quests',
   standalone: true,
-  imports: [QuestItemComponent, RouterModule, FormsModule],
+  imports: [QuestItemComponent, RouterModule, Field],
   templateUrl: './quests.html',
   styleUrls: ['./quests.css']
 })
@@ -16,34 +16,32 @@ export class Quests {
   quests = signal<Quest[]>([]);
   questCount = computed(() => this.quests().length);
 
-  newTitle = '';
-  newDescription = '';
-  newXp = 50;
+  private newQuestModel = signal({ title: '', description: '', xp: 50 });
+  questForm = form(this.newQuestModel);
 
   constructor(private questsService: QuestsService) {
     this.quests.set(this.questsService.getQuests());
   }
 
   addQuest() {
-    if (!this.newTitle.trim()) return;
+    const title = this.newQuestModel().title?.trim();
+    if (!title) return;
 
     const quests = this.quests();
     const maxId = quests.length > 0 ? Math.max(...quests.map(q => q.id)) : 0;
 
     const newQuest: Quest = {
       id: maxId + 1,
-      title: this.newTitle,
-      description: this.newDescription || 'A newly created quest.',
+      title: title,
+      description: this.newQuestModel().description || 'A newly created quest.',
       completed: false,
-      xp: this.newXp
+      xp: Number(this.newQuestModel().xp) || 0
     };
 
     this.questsService.addQuest(newQuest);
     this.quests.set(this.questsService.getQuests());
 
-    this.newTitle = '';
-    this.newDescription = '';
-    this.newXp = 50;
+    this.newQuestModel.set({ title: '', description: '', xp: 50 });
   }
 
   deleteQuest(id: number) {
