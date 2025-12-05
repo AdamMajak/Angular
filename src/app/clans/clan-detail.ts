@@ -12,7 +12,9 @@ import { playerLevels } from '../players/levels';
   styleUrls: ['./clan-detail.css']
 })
 export class ClanDetailComponent {
-  clan = this.clans.getClan(Number(this.route.snapshot.params['id']));
+  clan: any | undefined;
+  membersList: any[] = [];
+  availablePlayers: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -20,24 +22,38 @@ export class ClanDetailComponent {
     public players: PlayersService,
     private router: Router,
     private location: Location
-  ) {}
+  ) {
+    const id = Number(this.route.snapshot.params['id']);
+    this.loadClan(id);
+  }
 
-  members() {
-    return this.clan?.members
-      ?.map(id => this.players.getPlayer(id))
-      .filter((p): p is NonNullable<typeof p> => !!p) ?? [];
+  loadClan(id: number) {
+    this.clans.getClan(id).subscribe(c => {
+      this.clan = c;
+      this.loadMembers();
+    });
+  }
+
+  loadMembers() {
+    if (!this.clan) {
+      this.membersList = [];
+      return;
+    }
+    this.players.getPlayers().subscribe(all => {
+      const map = new Map(all.map((p: any) => [p.id, p]));
+      this.membersList = (this.clan.members || []).map((id: number) => map.get(id)).filter(Boolean);
+      this.availablePlayers = all.filter((p: any) => !(this.clan.members || []).includes(p.id));
+    });
   }
 
   addPlayer(id: number) {
     if (!this.clan) return;
-    this.clans.addPlayerToClan(this.clan.id, id);
-    this.clan = this.clans.getClan(this.clan.id);
+    this.clans.addPlayerToClan(this.clan.id, id).subscribe(() => this.loadClan(this.clan.id));
   }
 
   removePlayer(id: number) {
     if (!this.clan) return;
-    this.clans.removePlayerFromClan(this.clan.id, id);
-    this.clan = this.clans.getClan(this.clan.id);
+    this.clans.removePlayerFromClan(this.clan.id, id).subscribe(() => this.loadClan(this.clan.id));
   }
 
   goToPlayer(id: number) {

@@ -13,26 +13,35 @@ import { form, Field } from '@angular/forms/signals';
   styleUrls: ['./players.css']
 })
 export class PlayersComponent {
-  playersList = signal(this.playersService.players());
-  filteredPlayers = signal(this.playersList());
+  playersList = signal<any[]>([]);
+  filteredPlayers = signal<any[]>([]);
   private newPlayerModel = signal({ nickname: '', xp: 1 });
   playerForm = form(this.newPlayerModel);
   selectedLevel = signal('');
 
-  constructor(private playersService: PlayersService, private router: Router) {}
+  constructor(private playersService: PlayersService, private router: Router) {
+    this.loadPlayers();
+  }
+
+  loadPlayers() {
+    this.playersService.getPlayers().subscribe(list => {
+      this.playersList.set(list || []);
+      this.updatePlayers();
+    });
+  }
 
   addPlayer() {
     const nick = this.newPlayerModel().nickname?.trim();
     if (!nick) return;
-    this.playersService.createCustomPlayer(nick, Number(this.newPlayerModel().xp));
-    this.updatePlayers();
-    this.newPlayerModel.set({ nickname: '', xp: 1 });
+    this.playersService.createCustomPlayer(nick, Number(this.newPlayerModel().xp)).subscribe(() => {
+      this.loadPlayers();
+      this.newPlayerModel.set({ nickname: '', xp: 1 });
+    });
   }
 
   deletePlayer(id: number, event: Event) {
     event.stopPropagation();
-    this.playersService.deletePlayer(id);
-    this.updatePlayers();
+    this.playersService.deletePlayer(id).subscribe(() => this.loadPlayers());
   }
 
   goToPlayer(id: number) {
@@ -44,7 +53,7 @@ export class PlayersComponent {
   }
 
   updatePlayers() {
-    let list = this.playersService.players();
+    let list = this.playersList();
     if (this.selectedLevel()) {
       list = list.filter(p => this.getPlayerLevel(p).title === this.selectedLevel());
     }

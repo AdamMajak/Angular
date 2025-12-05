@@ -15,10 +15,11 @@ import { Quest } from '../quests/quest-item';
 })
 export class PlayerDetailComponent {
 
-  player = this.players.getPlayer(Number(this.route.snapshot.params['id']));
+  player: any | undefined;
 
   assignedQuests: Quest[] = [];
   completedQuests: Quest[] = [];
+  clan: any | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,50 +31,55 @@ export class PlayerDetailComponent {
   ) {}
 
   ngOnInit() {
-    this.refreshQuestLists();
+    const id = Number(this.route.snapshot.params['id']);
+    this.players.getPlayer(id).subscribe(p => {
+      this.player = p;
+      if (this.player?.clanId) {
+        this.clans.getClan(this.player.clanId).subscribe(c => this.clan = c);
+      }
+      this.refreshQuestLists();
+    });
   }
 
   refreshQuestLists() {
     if (!this.player) return;
 
-    this.assignedQuests = this.player.assignedQuests
-      .map(id => this.quests.getQuest(id))
-      .filter((q): q is Quest => !!q);
-
-    this.completedQuests = this.player.completedQuests
-      .map(id => this.quests.getQuest(id))
-      .filter((q): q is Quest => !!q);
+    this.quests.getQuests().subscribe(all => {
+      const map = new Map(all.map((q: any) => [q.id, q]));
+      this.assignedQuests = (this.player.assignedQuests || []).map((id: number) => map.get(id)).filter(Boolean) as Quest[];
+      this.completedQuests = (this.player.completedQuests || []).map((id: number) => map.get(id)).filter(Boolean) as Quest[];
+    });
   }
 
   markCompleted(q: Quest) {
     if (!this.player) return;
 
-    this.player.assignedQuests = this.player.assignedQuests.filter(id => id !== q.id);
-    this.player.completedQuests.push(q.id);
+    this.player.assignedQuests = (this.player.assignedQuests || []).filter((id: number) => id !== q.id);
+    this.player.completedQuests = [...(this.player.completedQuests || []), q.id];
 
-    this.refreshQuestLists();
+    this.players.updatePlayer(this.player).subscribe(() => this.refreshQuestLists());
   }
 
   markUncompleted(q: Quest) {
     if (!this.player) return;
 
-    this.player.completedQuests = this.player.completedQuests.filter(id => id !== q.id);
-    this.player.assignedQuests.push(q.id);
+    this.player.completedQuests = (this.player.completedQuests || []).filter((id: number) => id !== q.id);
+    this.player.assignedQuests = [...(this.player.assignedQuests || []), q.id];
 
-    this.refreshQuestLists();
+    this.players.updatePlayer(this.player).subscribe(() => this.refreshQuestLists());
   }
 
   getClan() {
-    return this.player?.clanId ? this.clans.getClan(this.player.clanId) : null;
+    return this.clan;
   }
 
   getTotalXP(): number {
     if (!this.player) return 0;
 
-    return this.player.completedQuests
-      .map(id => this.quests.getQuest(id))
-      .filter(q => !!q)
-      .reduce((sum, q) => sum + (q?.xp ?? 0), 0);
+    return (this.player.completedQuests || [])
+      .map((id: number) => this.completedQuests.find(q => q.id === id))
+      .filter((q: Quest | undefined): q is Quest => !!q)
+      .reduce((sum: number, q: Quest) => sum + (q?.xp ?? 0), 0);
   }
 
   getLevelInfo(): { current: PlayerLevel; next: PlayerLevel } {
