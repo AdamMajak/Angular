@@ -20,7 +20,7 @@ export class QuestDetailComponent {
     private questsService: QuestsService
   ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.quest = this.questsService.getQuest(id);
+    this.questsService.getQuest(id).subscribe(q => this.quest = q);
   }
 
   goBack(): void {

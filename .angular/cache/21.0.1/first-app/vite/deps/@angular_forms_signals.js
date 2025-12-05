@@ -1,9 +1,10 @@
 import {
-  httpResource
-} from "./chunk-2SOIURSZ.js";
-import {
   getDOM
-} from "./chunk-BP3UVUM3.js";
+} from "./chunk-H4A5UR6V.js";
+import {
+  httpResource
+} from "./chunk-QLYUMJHG.js";
+import "./chunk-L7CXBF3E.js";
 import {
   APP_ID,
   ApplicationRef,
@@ -26,21 +27,17 @@ import {
   SIGNAL,
   Self,
   SkipSelf,
-  Subject,
   Version,
   afterNextRender,
   booleanAttribute,
   computed,
   effect,
-  forkJoin,
   forwardRef,
-  from,
   inject,
   input,
   isPromise,
   isSubscribable,
   linkedSignal,
-  map,
   resource,
   runInInjectionContext,
   setClassMetadata,
@@ -59,7 +56,13 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵlistener
-} from "./chunk-UNCNQP7H.js";
+} from "./chunk-2V2SD25M.js";
+import {
+  Subject,
+  forkJoin,
+  from,
+  map
+} from "./chunk-RSS3ODKE.js";
 import {
   __async,
   __spreadProps,

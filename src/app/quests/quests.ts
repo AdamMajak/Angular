@@ -20,33 +20,33 @@ export class Quests {
   questForm = form(this.newQuestModel);
 
   constructor(private questsService: QuestsService) {
-    this.quests.set(this.questsService.getQuests());
+    this.loadQuests();
+  }
+
+  loadQuests() {
+    this.questsService.getQuests().subscribe(list => this.quests.set(list || []));
   }
 
   addQuest() {
     const title = this.newQuestModel().title?.trim();
     if (!title) return;
 
-    const quests = this.quests();
-    const maxId = quests.length > 0 ? Math.max(...quests.map(q => q.id)) : 0;
-
     const newQuest: Quest = {
-      id: maxId + 1,
+      id: 0,
       title: title,
       description: this.newQuestModel().description || 'A newly created quest.',
       completed: false,
       xp: Number(this.newQuestModel().xp) || 0
     };
 
-    this.questsService.addQuest(newQuest);
-    this.quests.set(this.questsService.getQuests());
-
-    this.newQuestModel.set({ title: '', description: '', xp: 50 });
+    this.questsService.addQuest(newQuest).subscribe(() => {
+      this.loadQuests();
+      this.newQuestModel.set({ title: '', description: '', xp: 50 });
+    });
   }
 
   deleteQuest(id: number) {
-    this.questsService.deleteQuest(id);
-    this.quests.set(this.questsService.getQuests());
+    this.questsService.deleteQuest(id).subscribe(() => this.loadQuests());
   }
 
   trackById(index: number, quest: Quest) {

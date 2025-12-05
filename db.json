@@ -1,0 +1,15 @@
+{
+  "quests": [
+    { "id": 1, "title": "Hunt the Shadow Beast", "description": "Track down and defeat the creature haunting the dark forest.", "completed": false, "xp": 150 },
+    { "id": 2, "title": "Gather Crystal Shards", "description": "Collect 15 glowing crystal shards from the mountain caves.", "completed": true, "xp": 80 },
+    { "id": 3, "title": "Collect Herbs", "description": "Collect 10 healing herbs for the apothecary.", "completed": false, "xp": 45 }
+  ],
+  "players": [
+    { "id": 1, "nickname": "ShadowHunter", "xp": 120, "clanId": 1, "quests": [1,2], "assignedQuests": [1], "completedQuests": [2], "avatar": "assets/avatar1.png" },
+    { "id": 2, "nickname": "FlameMage", "xp": 300, "clanId": 2, "quests": [3], "assignedQuests": [], "completedQuests": [], "avatar": "assets/avatar2.png" }
+  ],
+  "clans": [
+    { "id": 1, "name": "DragonSlayers", "description": "Elite warriors slaying dragons.", "capacity": 10, "members": [1], "image": "assets/clan1.png" },
+    { "id": 2, "name": "FireGuild", "description": "Masters of fire magic.", "capacity": 15, "members": [2], "image": "assets/clan2.png" }
+  ]
+}

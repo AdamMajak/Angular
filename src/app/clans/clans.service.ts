@@ -1,4 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, switchMap } from 'rxjs';
 import { Clan } from './clan.model';
 import { PlayersService } from '../players/players.service';
 
@@ -6,101 +8,64 @@ import { PlayersService } from '../players/players.service';
   providedIn: 'root',
 })
 export class ClansService {
-  constructor(private playersService: PlayersService) {}
+  private baseUrl = 'http://localhost:3000';
 
-  clans = signal<Clan[]>([
-    {
-      id: 1,
-      name: 'DragonSlayers',
-      description: 'Elite warriors slaying dragons.',
-      capacity: 10,
-      members: [1],
-      image: 'assets/clan1.png'
-    },
-    {
-      id: 2,
-      name: 'FireGuild',
-      description: 'Masters of fire magic.',
-      capacity: 15,
-      members: [2],
-      image: 'assets/clan2.png'
-    }
-  ]);
+  constructor(private http: HttpClient, private playersService: PlayersService) {}
 
-  getClans() {
-    return this.clans();
+  getClans(): Observable<Clan[]> {
+    return this.http.get<Clan[]>(`${this.baseUrl}/clans`);
   }
 
-  getClan(id: number) {
-    return this.clans().find(c => c.id === id);
+  getClan(id: number): Observable<Clan> {
+    return this.http.get<Clan>(`${this.baseUrl}/clans/${id}`);
   }
 
-  addClan() {
-    const newId = Math.max(...this.clans().map(c => c.id)) + 1;
-    const newClan: Clan = {
-      id: newId,
-      name: 'New Clan',
-      description: 'A newly created clan.',
-      capacity: 20,
-      members: [],
+  createCustomClan(name: string, description: string, capacity: number): Observable<Clan> {
+    const newClan: Partial<Clan> = {
+      name,
+      description,
+      capacity,
+      members: []
     };
-    this.clans.update(clans => [...clans, newClan]);
+    return this.http.post<Clan>(`${this.baseUrl}/clans`, newClan);
   }
 
-  deleteClan(id: number) {
-    this.clans.update(clans => clans.filter(c => c.id !== id));
+  deleteClan(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/clans/${id}`);
   }
 
-  addPlayerToClan(clanId: number, playerId: number) {
-    this.clans.update(clans =>
-      clans.map(c => {
-        if (c.id === clanId) {
-          if (c.members.length < c.capacity) {
-            return { ...c, members: [...c.members, playerId] };
-          }
-        }
-        return c;
+  addPlayerToClan(clanId: number, playerId: number): Observable<any> {
+    // fetch clan, update members, then update player
+    return this.getClan(clanId).pipe(
+      switchMap(clan => {
+        const members = Array.isArray(clan.members) ? [...clan.members, playerId] : [playerId];
+        const updated = { ...clan, members } as Clan;
+        return this.http.put<Clan>(`${this.baseUrl}/clans/${clanId}`, updated).pipe(
+          switchMap(() => this.playersService.getPlayer(playerId).pipe(
+            switchMap(player => {
+              const p = { ...(player as any), clanId };
+              return this.playersService.updatePlayer(p as any);
+            })
+          ))
+        );
       })
     );
-
-    const player = this.playersService.getPlayer(playerId);
-    if (player) {
-      this.playersService.updatePlayer({
-        ...player,
-        clanId
-      });
-    }
   }
 
-  removePlayerFromClan(clanId: number, playerId: number) {
-    this.clans.update(clans =>
-      clans.map(c =>
-        c.id === clanId
-          ? { ...c, members: c.members.filter(id => id !== playerId) }
-          : c
-      )
+  removePlayerFromClan(clanId: number, playerId: number): Observable<any> {
+    return this.getClan(clanId).pipe(
+      switchMap(clan => {
+        const members = Array.isArray(clan.members) ? clan.members.filter((id: number) => id !== playerId) : [];
+        const updated = { ...clan, members } as Clan;
+        return this.http.put<Clan>(`${this.baseUrl}/clans/${clanId}`, updated).pipe(
+          switchMap(() => this.playersService.getPlayer(playerId).pipe(
+            switchMap(player => {
+              const p = { ...(player as any), clanId: undefined };
+              return this.playersService.updatePlayer(p as any);
+            })
+          ))
+        );
+      })
     );
-
-    const player = this.playersService.getPlayer(playerId);
-    if (player) {
-      this.playersService.updatePlayer({
-        ...player,
-        clanId: undefined
-      });
-    }
   }
-
-
-  createCustomClan(name: string, description: string, capacity: number) {
-  const newId = Math.max(...this.clans().map(c => c.id)) + 1;
-  const newClan = {
-    id: newId,
-    name,
-    description,
-    capacity,
-    members: []
-  };
-  this.clans.update(clans => [...clans, newClan]);
-}
-
 }
