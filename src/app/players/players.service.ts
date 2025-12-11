@@ -16,6 +16,17 @@ export class PlayersService {
       assignedQuests: [1, 2],      // pridajp      assignedQuests: [3],
       completedQuests: []
     }
+    ,
+    {
+      id: 2,
+      nickname: 'FlameMage',
+      xp: 5,
+      clanId: undefined,
+      quests: [],
+      avatar: 'assets/avatar2.png',
+      assignedQuests: [],
+      completedQuests: []
+    }
   ]);
 
   getPlayers() {
@@ -51,10 +62,13 @@ export class PlayersService {
   }
 
   createCustomPlayer(nickname: string, xp: number) {
+    const name = (nickname || '').trim();
+    if (name.length < 8) return false;
+
     const newId = Math.max(...this.players().map(p => p.id)) + 1;
     const newPlayer: Player = {
       id: newId,
-      nickname,
+      nickname: name,
       xp,
       clanId: undefined,
       quests: [],
@@ -62,5 +76,6 @@ export class PlayersService {
       completedQuests: []
     };
     this.players.update(players => [...players, newPlayer]);
+    return true;
   }
 }

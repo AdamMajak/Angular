@@ -38,7 +38,8 @@ export class Quests {
       xp: Number(this.newQuestModel().xp) || 0
     };
 
-    this.questsService.addQuest(newQuest);
+    const ok = this.questsService.addQuest(newQuest);
+    if (!ok) return;
     this.quests.set(this.questsService.getQuests());
 
     this.newQuestModel.set({ title: '', description: '', xp: 50 });

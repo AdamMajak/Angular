@@ -21,7 +21,8 @@ export class ClansComponent {
   addClan() {
     const name = this.newClanModel().name?.trim();
     if (!name) return;
-    this.clansService.createCustomClan(name, this.newClanModel().description, Number(this.newClanModel().capacity));
+    const ok = this.clansService.createCustomClan(name, this.newClanModel().description, Number(this.newClanModel().capacity));
+    if (!ok) return;
     this.list.set(this.clansService.clans());
     this.newClanModel.set({ name: '', description: '', capacity: 10 });
   }

@@ -24,7 +24,8 @@ export class PlayersComponent {
   addPlayer() {
     const nick = this.newPlayerModel().nickname?.trim();
     if (!nick) return;
-    this.playersService.createCustomPlayer(nick, Number(this.newPlayerModel().xp));
+    const ok = this.playersService.createCustomPlayer(nick, Number(this.newPlayerModel().xp));
+    if (!ok) return;
     this.updatePlayers();
     this.newPlayerModel.set({ nickname: '', xp: 1 });
   }

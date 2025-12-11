@@ -92,15 +92,20 @@ export class ClansService {
 
 
   createCustomClan(name: string, description: string, capacity: number) {
+  const n = (name || '').trim();
+  const d = (description || '').trim();
+  if (n.length < 8 || d.length < 8) return false;
+
   const newId = Math.max(...this.clans().map(c => c.id)) + 1;
   const newClan = {
     id: newId,
-    name,
-    description,
+    name: n,
+    description: d,
     capacity,
     members: []
   };
   this.clans.update(clans => [...clans, newClan]);
+  return true;
 }
 
 }

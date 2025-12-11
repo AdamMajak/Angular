@@ -20,7 +20,11 @@ export class QuestsService {
   }
 
   addQuest(newQuest: Quest) {
+    const title = (newQuest.title || '').trim();
+    const desc = (newQuest.description || '').trim();
+    if (title.length < 8 || desc.length < 8) return false;
     this._quests.update(qs => [...qs, newQuest]);
+    return true;
   }
 
   deleteQuest(id: number) {
