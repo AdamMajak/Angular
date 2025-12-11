@@ -58,7 +58,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-UNCNQP7H.js";
+} from "./chunk-KINNZDD5.js";
 import {
   __async,
   __spreadProps,
@@ -4535,8 +4535,6 @@ function booleanOrUrlAttribute(value) {
 }
 
 export {
-  parseCookieValue,
-  XhrFactory,
   getDOM,
   setRootDomAdapter,
   DomAdapter,
@@ -4613,6 +4611,8 @@ export {
   SlicePipe,
   CommonModule,
   PlatformNavigation,
+  parseCookieValue,
+  XhrFactory,
   NavigationAdapterForLocation,
   registerLocaleData2 as registerLocaleData,
   PLATFORM_BROWSER_ID,
@@ -4631,4 +4631,4 @@ export {
   PRECONNECT_CHECK_BLOCKLIST,
   NgOptimizedImage
 };
-//# sourceMappingURL=chunk-BP3UVUM3.js.map
+//# sourceMappingURL=chunk-U5EF42K7.js.map
