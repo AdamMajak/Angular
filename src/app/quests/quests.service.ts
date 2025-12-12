@@ -31,3 +31,4 @@ export class QuestsService {
     this._quests.update(qs => qs.filter(q => q.id !== id));
   }
 }
+

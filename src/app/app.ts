@@ -13,3 +13,4 @@ export class App {
   header = 'Quest Overflow';
   header_logo = 'meteor-original.svg';
 }
+

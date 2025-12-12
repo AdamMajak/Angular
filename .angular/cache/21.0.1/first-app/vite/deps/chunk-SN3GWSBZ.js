@@ -4535,6 +4535,8 @@ function booleanOrUrlAttribute(value) {
 }
 
 export {
+  parseCookieValue,
+  XhrFactory,
   getDOM,
   setRootDomAdapter,
   DomAdapter,
@@ -4611,8 +4613,6 @@ export {
   SlicePipe,
   CommonModule,
   PlatformNavigation,
-  parseCookieValue,
-  XhrFactory,
   NavigationAdapterForLocation,
   registerLocaleData2 as registerLocaleData,
   PLATFORM_BROWSER_ID,
@@ -4631,4 +4631,4 @@ export {
   PRECONNECT_CHECK_BLOCKLIST,
   NgOptimizedImage
 };
-//# sourceMappingURL=chunk-U5EF42K7.js.map
+//# sourceMappingURL=chunk-SN3GWSBZ.js.map
